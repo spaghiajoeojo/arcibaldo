@@ -1,0 +1,54 @@
+---
+version: "3.8"
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    volumes:
+      - ./ollama-config:/root/.ollama
+    ports:
+      - 11434:11434
+    restart: unless-stopped
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - 3000:8080
+    volumes:
+      - ./open-webui:/app/backend/data
+    #    extra_hosts:
+    #      - "host.docker.internal:host-gateway"
+    environment:
+      - "OLLAMA_BASE_URL=http://ollama:11434"
+    restart: unless-stopped
+  tts:
+    image: ghcr.io/coqui-ai/tts
+    container_name: tts
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    entrypoint: >
+        bash -c "yes | tts --model_name tts_models/multilingual/multi-dataset/xtts_v2 --list_speaker_idxs \
+        && python3 TTS/server/server.py --model_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2 --config_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2/config.json --use_cuda true"
+    volumes:
+      - ./tts-data:/root/.local/share/tts
+    ports:
+      - 5002:5002
+    restart: unless-stopped
+  arcibaldo:
+    build: ./llm-agent
+    container_name: arcibaldo
+    ports:
+      - 8080:8080
+    restart: unless-stopped
