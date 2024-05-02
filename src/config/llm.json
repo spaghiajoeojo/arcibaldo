@@ -1,5 +1,4 @@
 {
-    "openAIApiKey": "empty",
-    "modelName": "mistral-7b-instruct-v0.1.Q8_0.gguf",
-    "baseURL": "https://7f7f-34-125-106-111.ngrok-free.app/v1"
+    "model": "phi3",
+    "baseUrl": "http://ollama:11434"
 }
