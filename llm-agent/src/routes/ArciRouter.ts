@@ -17,13 +17,13 @@ export class ArciRouter {
     logger!: Logger;
 
   @Route('POST', '/ask')
-  async hello(req: Request, res: Response) {
+  async ask(req: Request, res: Response) {
     this.logger.debug(req);
     res.end(JSON.stringify(await this.arciService.run(req.body.prompt)));
   }
 
   @Route('POST', '/ask-tts')
-  async hellotts(req: Request, res: Response) {
+  async askTTS(req: Request, res: Response) {
     this.logger.debug(req);
     const { answer } = await this.arciService.run(req.body.prompt);
     const audio = await this.ttsService.tts(answer);

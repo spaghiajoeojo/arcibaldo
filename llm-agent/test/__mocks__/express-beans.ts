@@ -9,6 +9,8 @@ const InjectBeanMock = mock<(bean: never) => () => () => never>(
   (bean: never) => () => () => mock<typeof bean>());
 const RouteMock = jest.fn().mockReturnValue(noop);
 const RouterBeanMock = jest.fn().mockReturnValue(noop);
+const InjectLoggerMock = jest.fn().mockReturnValue(noop);
+const SetupMock = jest.fn().mockReturnValue(noop);
 
 export {
   ExpressBeansMock as ExpressBeans,
@@ -16,5 +18,7 @@ export {
   InjectBeanMock as InjectBean,
   RouteMock as Route,
   RouterBeanMock as RouterBean,
+  InjectLoggerMock as InjectLogger,
+  SetupMock as Setup,
   types,
 };
