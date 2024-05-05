@@ -2,9 +2,11 @@ import { ExpressBeans } from 'express-beans';
 import express, { NextFunction, Request, Response } from 'express';
 import HealthCheckRouter from '@/routes/HealthCheckRouter';
 import { ArciRouter } from '@/routes/ArciRouter';
+import { TTSAdapterRouter } from './routes/TTSAdapterRouter';
 
 const app = new ExpressBeans({
   routerBeans: [
+    TTSAdapterRouter,
     ArciRouter,
     HealthCheckRouter,
   ],

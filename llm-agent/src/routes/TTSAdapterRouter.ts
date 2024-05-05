@@ -4,8 +4,8 @@ import {
 } from 'express-beans';
 import TextToSpeechService from '@/services/TextToSpeechService';
 
-@RouterBean('/v1/audio')
-export class ArciRouter {
+@RouterBean('/audio')
+export class TTSAdapterRouter {
   @InjectBean(TextToSpeechService)
     ttsService!: TextToSpeechService;
 
