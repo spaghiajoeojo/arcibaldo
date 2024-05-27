@@ -23,3 +23,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Docker compose persistency
+ollama-config
+open-webui
+tts-data

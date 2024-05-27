@@ -1,11 +1,11 @@
 import {
   Bean, InjectLogger, Logger,
+  Setup,
 } from 'express-beans';
 import { Ollama, Message, ChatResponse } from 'ollama';
 import { baseUrl, model } from '@/config/llm.json';
 import { MeteoTool } from './tools/MeteoTool';
 import { Tool } from './tools/Tool';
-import { ClockTool } from './tools/ClockTool';
 import { WebSearchTool } from './tools/WebSearchTool';
 
 @Bean
@@ -17,9 +17,20 @@ export default class ArcibaldoService {
 
   private tools: Tool[] = [
     new MeteoTool(),
-    new ClockTool(),
     new WebSearchTool(),
   ];
+
+  @Setup
+  async setup() {
+    this.logger.info(`Using model: ${model}`);
+    const list = await this.client.list();
+    const models = list.models.map(({ name }) => name);
+    if (!models.includes(model)) {
+      this.logger.info(`Model ${model} not found, downloading...`);
+      await this.client.pull({ model });
+    }
+    this.logger.info('Model loaded');
+  }
 
   private async iterate(messages: Message[], input: string): Promise<ChatResponse> {
     return this.client.chat({
@@ -54,6 +65,18 @@ export default class ArcibaldoService {
         Non rispondere con un pensiero l'ultimo messaggio è un pensiero.
         Non rispondere con una risposta finale se non sei giunto ad una conclusione.
         Se l'utente non ha effettuato alcuna richiesta rispondi direttamente con una "Risposta finale"
+
+        Informazioni utili e verificate:
+        Luogo corrente: Roma, Italia
+        Ora e data corrente: ${(new Date()).toLocaleString('it-IT', {
+    timeZone: 'Europe/Rome',
+    hour: '2-digit',
+    minute: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+    weekday: 'long',
+  })}
         `,
         },
         { role: 'user', content: 'Quanto costa una macchina usata?' },

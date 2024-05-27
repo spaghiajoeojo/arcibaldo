@@ -10,7 +10,10 @@ export default class TextToSpeechService {
   private logger!: Logger;
 
   public async tts(input: string) {
-    this.logger.debug(`tts: ${input}`);
+    this.logger.debug(`tts: ${JSON.stringify(input)}`);
+    if (typeof input !== 'string') {
+      throw new Error('Input must be a string');
+    }
     const text = input.replaceAll(/\.(?:\s|\n|$)/g, '\n');
     const res = await fetch(`${baseUrl}?text=${encodeURI(text)}`, {
       headers: {

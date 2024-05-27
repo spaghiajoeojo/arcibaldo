@@ -5,11 +5,11 @@ import {
 import TextToSpeechService from '@/services/TextToSpeechService';
 
 @RouterBean('/audio')
-export class TTSAdapterRouter {
+export class OpenAITTSAdapterRouter {
   @InjectBean(TextToSpeechService)
     ttsService!: TextToSpeechService;
 
-  @InjectLogger('TTSAdapter')
+  @InjectLogger('OpenAITTSAdapter')
     logger!: Logger;
 
   @Route('POST', '/speech')
