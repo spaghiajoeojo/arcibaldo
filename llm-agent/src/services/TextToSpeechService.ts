@@ -17,10 +17,11 @@ export default class TextToSpeechService {
       throw new Error('Input must be a string');
     }
     const text = input.replaceAll(/\.(?:\s|\n|$)/g, '\n');
-    const res = await fetch(`${baseUrl}?text=${encodeURI(text)}`, {
+    const res = await fetch(`${baseUrl}?text=${encodeURI(text)}')}`, {
       headers: {
         'language-id': language,
         'speaker-id': speaker,
+        'speaker-wav': '/root/.local/share/tts/references/arcibaldo.wav',
       },
     });
     return res.blob();

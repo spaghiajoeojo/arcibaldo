@@ -29,7 +29,7 @@ services:
       - "OPENAI_API_BASE_URL=http://arcibaldo:8080"
     restart: unless-stopped
   tts:
-    image: ghcr.io/coqui-ai/tts
+    build: ./tts
     container_name: tts
     deploy:
       resources:
