@@ -2,7 +2,6 @@ import {
   Bean,
   InjectLogger, Logger,
 } from 'express-beans';
-import { baseUrl, language, speaker } from '@/config/tts.json';
 
 @Bean
 export default class TextToSpeechService {
@@ -10,6 +9,9 @@ export default class TextToSpeechService {
   private logger!: Logger;
 
   public async tts(input: string) {
+    const baseUrl = process.env.TTS_BASE_URL!;
+    const language = process.env.TTS_LANGUAGE!;
+    const speaker = process.env.TTS_SPEAKER!;
     this.logger.debug(`tts: ${JSON.stringify(input)}`);
     if (typeof input !== 'string') {
       throw new Error('Input must be a string');

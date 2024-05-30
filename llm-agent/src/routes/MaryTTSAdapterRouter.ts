@@ -21,6 +21,7 @@ export class MaryTTSAdapterRouter {
 
   @Route('POST', '/process')
   async postTTS(req: Request, res: Response) {
+    this.logger.info(req.body);
     const audio = await this.ttsService.tts(req.body.INPUT_TEXT);
     res.type(audio.type);
     res.end(Buffer.from(await audio.arrayBuffer()));

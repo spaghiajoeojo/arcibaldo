@@ -14,7 +14,7 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-COPY --from=builder /app/package.json /app/package-lock.json /app/dist ./
+COPY --from=builder /app/package.json /app/package-lock.json /app/.env /app/dist ./
 
 ENV NODE_ENV=production
 RUN npm ci

@@ -3,7 +3,6 @@ import {
   Setup,
 } from 'express-beans';
 import { Ollama, Message, ChatResponse } from 'ollama';
-import { baseUrl, model } from '@/config/llm.json';
 import { MeteoTool } from './tools/MeteoTool';
 import { Tool } from './tools/Tool';
 import { WebSearchTool } from './tools/WebSearchTool';
@@ -13,7 +12,7 @@ export default class ArcibaldoService {
   @InjectLogger('ArcibaldoService')
   private logger!: Logger;
 
-  private client = new Ollama({ host: baseUrl });
+  private client = new Ollama({ host: process.env.LLM_BASE_URL });
 
   private tools: Tool[] = [
     new MeteoTool(),
@@ -22,6 +21,7 @@ export default class ArcibaldoService {
 
   @Setup
   async setup() {
+    const model = process.env.LLM_MODEL!;
     this.logger.info(`Using model: ${model}`);
     const list = await this.client.list();
     const models = list.models.map(({ name }) => name);
@@ -34,7 +34,7 @@ export default class ArcibaldoService {
 
   private async iterate(messages: Message[], input: string): Promise<ChatResponse> {
     return this.client.chat({
-      model,
+      model: process.env.LLM_MODEL!,
       messages: [
         {
           role: 'system',

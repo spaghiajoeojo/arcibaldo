@@ -28,3 +28,6 @@ coverage
 ollama-config
 open-webui
 tts-data
+
+# not ready
+../web-ui

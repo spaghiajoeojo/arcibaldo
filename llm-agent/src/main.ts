@@ -1,3 +1,4 @@
+import '@/config';
 import { ExpressBeans } from 'express-beans';
 import express, { NextFunction, Request, Response } from 'express';
 import HealthCheckRouter from '@/routes/HealthCheckRouter';
