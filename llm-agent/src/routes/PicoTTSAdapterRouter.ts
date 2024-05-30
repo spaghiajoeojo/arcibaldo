@@ -5,24 +5,17 @@ import {
 import TextToSpeechService from '@/services/TextToSpeechService';
 
 @RouterBean('/')
-export class MaryTTSAdapterRouter {
+export class PicoTTSAdapterRouter {
   @InjectBean(TextToSpeechService)
     ttsService!: TextToSpeechService;
 
-  @InjectLogger('MaryTTSAdapterRouter')
+  @InjectLogger('PicoTTSAdapterRouter')
     logger!: Logger;
 
-  @Route('GET', '/process')
+  @Route('GET', '/speak')
   async getTTS(req: Request, res: Response) {
-    const audio = await this.ttsService.tts(req.query.INPUT_TEXT as string);
-    res.type(audio.type);
-    res.end(Buffer.from(await audio.arrayBuffer()));
-  }
-
-  @Route('POST', '/process')
-  async postTTS(req: Request, res: Response) {
-    this.logger.info(req.body);
-    const audio = await this.ttsService.tts(req.body.INPUT_TEXT);
+    const text = decodeURIComponent(req.query.text as string);
+    const audio = await this.ttsService.tts(text);
     res.type(audio.type);
     res.end(Buffer.from(await audio.arrayBuffer()));
   }

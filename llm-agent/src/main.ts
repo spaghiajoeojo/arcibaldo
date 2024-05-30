@@ -4,11 +4,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import HealthCheckRouter from '@/routes/HealthCheckRouter';
 import { ArciRouter } from '@/routes/ArciRouter';
 import { OpenAITTSAdapterRouter } from './routes/OpenAITTSAdapterRouter';
-import { MaryTTSAdapterRouter } from './routes/MaryTTSAdapterRouter';
+import { PicoTTSAdapterRouter } from './routes/PicoTTSAdapterRouter';
 
 const app = new ExpressBeans({
   routerBeans: [
-    MaryTTSAdapterRouter,
+    PicoTTSAdapterRouter,
     OpenAITTSAdapterRouter,
     ArciRouter,
     HealthCheckRouter,
